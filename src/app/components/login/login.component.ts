@@ -15,15 +15,26 @@ export class LoginComponent implements OnInit {
   constructor(private loginService:LoginService) { }
 
   ngOnInit() {
+    this.loginService.checkSession().subscribe(
+      (data)=>{
+          this.loggedIn=true;
+          console.log("Session True");
+          
+      },
+      (err)=>{
+        this.loggedIn=false;        
+        console.log("Session False");
+
+      }
+    );
   }
 
   onSubmit(){
     this.loginService.sendCredential(this.credential.username,this.credential.password).subscribe(
       (data:any)=>{
-          console.log(data);
-          localStorage.set("xAuthToken",data.json().token)
-          this.loggedIn=true;
-          location.reload();      
+           localStorage.setItem("xAuthToken",data.token);
+           this.loggedIn=true;
+           location.reload();
       },
       (err)=>{
           console.log(err);
@@ -31,7 +42,7 @@ export class LoginComponent implements OnInit {
       }
 
 
-    )
+    );
   }
 
 }

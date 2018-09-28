@@ -8,17 +8,49 @@ export class LoginService {
 
   }
   sendCredential(username: string, password: string) {
-    let url = "http://localhost:8181/token";
+    let url = "http://localhost:8080/token";
     let encodedCredentials = btoa(username + ':' + password);
     let basicHeader = "Basic " + encodedCredentials;
-    let httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': basicHeader
-      })
-    };
 
-    return this.http.get(url, httpOptions);
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': basicHeader
+    });
+
+    return this.http.get(url, { headers: headers });
 
   }
+
+  checkSession() {
+    let url = "http://localhost:8080/checkSession";
+    console.log("check 1 : " + localStorage.getItem('xAuthToken'));
+    let headers;
+
+    if(localStorage.getItem('xAuthToken')){
+     headers = new HttpHeaders({
+      'Authorization': 'Basic ajpq',
+      'x-auth-token': localStorage.getItem('xAuthToken')
+      
+    });
+    return this.http.get(url, { headers: headers, responseType: 'text' });
+  }else{
+    return this.http.get(url, { responseType: 'text' });
+
+  }
+
+   
+  }
+
+logout() {
+  let url = "http://localhost:8080/user/logout";
+  let headers = new HttpHeaders({
+    'Authorization': 'Basic ajpq',
+    'x-auth-token': localStorage.getItem('xAuthToken')
+  });
+
+  return this.http.post(url, {}, { headers: headers, responseType: 'text' });
+
+}
+
+
 }

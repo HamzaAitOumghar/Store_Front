@@ -16,8 +16,11 @@
         </form>
 
       </mat-grid-tile>
-
-
     </mat-grid-list>
   </div>
+
+  <div [hidden]="!loggedIn">
+      <h2>You Have loggedIn</h2>
+  </div>
+
 </div>

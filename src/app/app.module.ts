@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { routes} from './app.routing';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AddBookComponent } from './components/add-book/add-book.component';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { RouterModule } from '@angular/router';
     AppComponent,
     NavBarComponent,
     LoginComponent,
+    AddBookComponent,
   ],
   imports: [
     BrowserModule,
