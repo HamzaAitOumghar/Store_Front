@@ -1,0 +1,51 @@
+<div class="container">
+
+  <div class="table-responsive" style="margin-top: 30px;">
+    <table id="bookListTable" class="table bordered highlight">
+
+      <thead>
+        <tr>
+          <th>
+            <input type="checkbox" (change)="updateSelected($event.target.checked)">
+          </th>
+          <th>Title</th>
+          <th>Auteur</th>
+          <th>Categorie</th>
+          <th>Prix du liste</th>
+          <th>Prix</th>
+          <th>Active ? </th>
+          <th class="text-center">Operation</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr *ngFor="let book of bookList">
+          <td>
+            <input type="checkbox" [checked]="allChecked" (change)="updateRemoveBookList($event.target.checked,book)">
+          </td>
+          <td>
+            <a data-toggle="modal" data-target="#detailsBook" (click)="onSelect(book)" style="cursor: pointer;">{{book.title}}</a>
+          </td>
+          <td>{{book.author}}</td>
+          <td>{{book.category}}</td>
+          <td>{{book.listPrice}}</td>
+          <td>{{book.ourPrice}}</td>
+          <td>{{book.active}}</td>
+          <td class="text-center">
+              <button mat-button (click)="onSelect(book)"  data-toggle="modal" data-target="#deleteBook"  class="mx-1"><i class="fas fa-trash"></i> </button>
+              <button mat-button (click)="onSelect(book)"  data-toggle="modal" data-target="#editBook"  class="mx-1"><i class="fas fa-edit"></i></button>
+            </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+  <button mat-raised-button  id="deleteSlected"  color="mat-warn" value="delete" data-toggle="modal" data-target="#deleteAllBook"><span class="fa fa-times"><i class="fas fa-trash"></i> Tous supprimer</span> </button>
+
+</div>
+<app-details-book [bookInput]="this.selectedBook" *ngIf="this.selectedBook"></app-details-book>
+<app-edit-book [newBook]="this.selectedBook" *ngIf="this.selectedBook"></app-edit-book>
+<app-delete-book [book]="this.selectedBook" *ngIf="this.selectedBook" (refrech)="onRefrech($event)" ></app-delete-book>
+<app-delete-all [books]="this.removeBookList" *ngIf="this.removeBookList" (refrech)="onRefrech($event)"></app-delete-all>

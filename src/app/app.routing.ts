@@ -1,5 +1,7 @@
 import {  Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
+import { AddBookComponent } from './components/add-book/add-book.component';
+import { BookListComponent } from './components/book-list/book-list.component';
 
 
 
@@ -12,9 +14,17 @@ export const routes :Routes =[
   {
     path: 'login',
     component:LoginComponent,
-    pathMatch:'full'
   }
-
+  ,
+  {
+    path: 'ajouterlivre',
+    component:AddBookComponent,
+  }
+  ,
+  {
+    path: 'listlivre',
+    component:BookListComponent,
+  }
 ];
 
 

@@ -32,3 +32,6 @@ mat-select{
 .primary{
     color: white;
 }
+.cdk-overlay-container{
+    z-index: 1080;
+  }
