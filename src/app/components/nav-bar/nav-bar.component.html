@@ -1,7 +1,7 @@
 <mat-toolbar class="mat-primary">
   <h3 style="color:red;">Acces Admin</h3>
     <span class="spacer"></span>
-    <span [hidden]="!loggedIn" [routerLink]="'/listlivre'"><a mat-button>List des Livres</a></span>
-    <span [hidden]="!loggedIn" [routerLink]="'/ajouterlivre'"><a mat-button>Ajouter Un Livre</a></span>
+    <span [hidden]="!loggedIn" [routerLink]="'/admin/listlivre'"><a mat-button>List des Livres</a></span>
+    <span [hidden]="!loggedIn" [routerLink]="'/admin/ajouterlivre'"><a mat-button>Ajouter Un Livre</a></span>
     <span [hidden]="!loggedIn" (click)="logout()"><a mat-button>Logout</a></span>
 </mat-toolbar> 

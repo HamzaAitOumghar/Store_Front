@@ -42,7 +42,9 @@
     </table>
 
   </div>
-  <button mat-raised-button  id="deleteSlected"  color="mat-warn" value="delete" data-toggle="modal" data-target="#deleteAllBook"><span class="fa fa-times"><i class="fas fa-trash"></i> Tous supprimer</span> </button>
+
+
+  <button mat-raised-button  id="deleteSlected"   data-toggle="modal" data-target="#deleteAllBook"><i class="fas fa-trash"></i> Tous supprimer </button>
 
 </div>
 <app-details-book [bookInput]="this.selectedBook" *ngIf="this.selectedBook"></app-details-book>

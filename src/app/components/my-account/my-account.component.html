@@ -1,0 +1,109 @@
+<div class="container">
+  <div class="row" id="header">
+    <div class="col-md-8 my-auto">
+      <h3 class="display-4"><span class="badge badge-primary border border-warning rounded"><i class="fas fa-address-card"></i>
+          Mon Compte</span></h3>
+    </div>
+    <div class="col-md-4 my-auto">
+      <img src="../../../assets/images/logo.png" class="img-fluid rounded border border-warning" style="z-index: 1;">
+    </div>
+
+  </div>
+
+  <hr style="width: 85%;height: 6px;background-color: #333;z-index: -1;">
+
+  <div class="row">
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-9">
+      <div class="card-group">
+        <div class="card">
+          <div class="card-body" style="background-color: #ededed">
+            <mat-tab-group>
+              <mat-tab label="Login">
+                <div class="mt-1">
+
+                  <div *ngIf="loginError">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                      Login Error !
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  </div>
+                  <form>
+                    <div class="form-group">
+                      <label for="staticUsername" class="col-form-label">Username</label>
+                      <input type="text" class="form-control" placeholder="Entrer votre identifiant : " [(ngModel)]="this.credential.username">
+                    </div>
+                    <div class="form-group">
+                      <label for="inputPassword" class="col-form-label">Password</label>
+                      <input type="password" class="form-control" placeholder="Password" [(ngModel)]="this.credential.password">
+                    </div>
+                    <button type="submit" class="btn btn-primary"> <i class="fas fa-sign-in-alt"></i> Login</button>
+                  </form>
+
+                </div>
+              </mat-tab>
+              <mat-tab label="Nouveau Compte ?">
+                <div class="mt-1">
+                  <div *ngIf="loginError">
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                      Un e-mail de vérification a été envoyé à l'adresse que vous avez indiqué.
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  </div>
+                  <form>
+                    <div class="form-group">
+                      <label for="staticUsername" class="col-form-label">Username: <span class="text-danger" *ngIf="this.usernameExists">utilisateur
+                          éxiste deja !</span></label>
+                      <input type="text" class="form-control" placeholder="Entrer votre identifiant : " [(ngModel)]="username">
+                    </div>
+                    <div class="form-group">
+                      <label for="inputPassword" class="col-form-label">Email : <span class="text-danger" *ngIf="this.usernameExists">email
+                          éxiste deja !</span></label>
+                      <input type="email" class="form-control" placeholder="Password" [(ngModel)]="email">
+                    </div>
+                    <button type="submit" class="btn btn-primary"> <i class="fas fa-plus-square"></i> Créer un nouveau
+                      compte </button>
+                  </form>
+                </div>
+              </mat-tab>
+              <mat-tab label="Mot de pass oubliée ">
+                <div class="mt-1">
+                    <div *ngIf="forgetPasswordEmailSent">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                          email envoyée ! ! .
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                      </div>
+                  <div *ngIf="emailNotExists">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                      Email n'existe pas ! ! .
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  </div>
+                  <form>
+                    <div class="form-group">
+                      <label for="staticUsername" class="col-form-label">Votre Email : </label>
+                      <input type="email" class="form-control" placeholder="Entrer votre Email : " [(ngModel)]="recoverEmail">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary"> <i class="fas fa-search"></i>Rechercher</button>
+                  </form>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

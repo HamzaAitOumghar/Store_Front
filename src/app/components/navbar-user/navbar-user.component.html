@@ -1,0 +1,63 @@
+<div class="page-top" style="width: 100%;height: 5px;background-color: #f46b42"></div>
+<!-- <nav class="navbar navbar-dark bg-dark">
+  <div class="collapse navbar-collapse">
+      <a class="navbar-brand" [routerLink]="'/home'">STORE DES LIVRES</a>
+    <ul class="navbar-nav mr-auto">
+      <li class="navbar-item"><a class=" btn btn-outline-primary" [routerLink]="'/bookList'"><i class="fas fa-book"></i>
+          List des Livres</a></li>
+
+    </ul>
+    <form class="form-inline mr-auto">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i> Search</button>
+    </form>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item"><a class="nav-link" [routerLink]="'/bookList'"><i class="fas fa-user"></i>
+          Mon Compte</a></li>
+      <li class="nav-item"><a class="nav-link" [routerLink]="'/bookList'"><i class="fas fa-user"></i>
+          Mon Compte</a></li>
+      <li class="nav-item"><a class="nav-link " [routerLink]="'/bookList'"><i class="fas fa-user"></i>
+          Mon Compte</a></li>
+      <li class="nav-item"><a class="nav-link " [routerLink]="'/bookList'"><i class="fas fa-user"></i>
+          Mon Compte</a></li>
+
+    </ul>
+  </div>
+
+</nav> -->
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" [routerLink]="'/home'">STORE DES LIVRES</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class=" btn btn-outline-primary" [routerLink]="'/bookList'"><i class="fas fa-book"></i>
+                        List des Livres</a>
+                </li>
+
+            </ul>
+
+            <form class="form-inline my-2 my-lg-0 mr-auto" (submit)="searchBookByTitle()">
+                <input class="form-control mr-sm-2" type="search" placeholder="Rechercher un livre" aria-label="Search" [(ngModel)]="keyboard">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i> Rechercher</button>
+            </form>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item" *ngIf="loggedIn"><a class="nav-link" [routerLink]="'/bookList'"><i class="fas fa-user-tie"></i>
+                        Mon Compte</a></li>
+                <li class="nav-item" *ngIf="loggedIn"><a class="nav-link" [routerLink]="'/bookList'"><i class="fas fa-shopping-cart"></i>
+                        Mon Panier</a></li>
+                <li class="nav-item" *ngIf="loggedIn"><a class="nav-link " [routerLink]="'/bookList'"><i class="far fa-user-circle"></i>
+                        Mon Profile </a></li>
+                <li class="nav-item" *ngIf="loggedIn"><a class="nav-link " (click)="logout()"><i class="fas fa-sign-out-alt"></i>
+                        Logout</a></li>
+
+            </ul>
+        </div>
+    </div>
+</nav>

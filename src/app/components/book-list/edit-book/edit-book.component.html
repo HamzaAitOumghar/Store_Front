@@ -109,7 +109,7 @@
             <mat-grid-tile [colspan]="2" [rowspan]="1">
               <mat-form-field>
 
-                <mat-select placeholder="Langue :" id="langue" name="langue" style="width: 100%;">
+                <mat-select placeholder="Langue :" id="langue" name="langue" style="width: 100%;" [(ngModel)]="newBook.language">
                   <mat-option value="english">Anglais</mat-option>
                   <mat-option value="frensh">Français</mat-option>
                 </mat-select>

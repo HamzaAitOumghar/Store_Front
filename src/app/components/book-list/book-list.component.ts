@@ -15,6 +15,8 @@ export class BookListComponent implements OnInit {
     bookList:Book[];
     allChecked:boolean;
     removeBookList:Book[]=new Array();
+    columnsToDisplay = ['Title'	,'Auteur'	,'Categorie	','Prix du liste'	,'Prix Unitaire'	,'Active ?'	,'Operation'];
+
 
 
   constructor(private bookService:AddBookService,private router:Router) { }
@@ -38,7 +40,9 @@ export class BookListComponent implements OnInit {
   }
   onRefrech($event){
     this.ngOnInit();      
+    this.allChecked=false;
   }
+
   updateSelected(event){
     if(event==true){
         this.allChecked=true;
