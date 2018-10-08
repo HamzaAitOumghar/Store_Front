@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { User } from '../entities/user';
 
 @Injectable()
 export class UserService {
@@ -10,12 +11,12 @@ export class UserService {
   public newUser(username, email) {
     let headers;
     let userInfo = {
-      "usernme": username,
+      "username": username,
       "email": email
     };
-    if (localStorage.getItem('xAuthToken')) {
+    if (localStorage.getItem('xAuthToken')&&localStorage.getItem('auth')) {
       headers = new HttpHeaders({
-        'Authorization': 'Basic ajpq',
+        'Authorization': localStorage.getItem('auth'),
         'x-auth-token': localStorage.getItem('xAuthToken'),
         'Content-type': 'application/json'
 
@@ -27,7 +28,7 @@ export class UserService {
         'Content-type': 'application/json'
       });
     }
-    return this.http.post(this.url+"user/newUser",userInfo,headers);
+    return this.http.post(this.url+"user/newUser",userInfo,{headers, responseType: 'text'});
 
   }
  
@@ -36,9 +37,9 @@ export class UserService {
     let userInfo = {
       "email": email
     };
-    if (localStorage.getItem('xAuthToken')) {
+    if (localStorage.getItem('xAuthToken')&&localStorage.getItem('auth')) {
       headers = new HttpHeaders({
-        'Authorization': 'Basic ajpq',
+        'Authorization': localStorage.getItem('auth'),
         'x-auth-token': localStorage.getItem('xAuthToken'),
         'Content-type': 'application/json'
 
@@ -50,7 +51,45 @@ export class UserService {
         'Content-type': 'application/json'
       });
     }
-    return this.http.post(this.url+"user/forgetPassword",userInfo,{ headers: headers});
+    return this.http.post(this.url+"user/forgetPassword",userInfo,{ headers: headers, responseType: 'text'});
+
+  }
+  public getCurrentUser(){
+    let headers;
+    if (localStorage.getItem('xAuthToken')&&localStorage.getItem('auth')) {
+      headers = new HttpHeaders({
+        'Authorization': localStorage.getItem('auth'),
+        'x-auth-token': localStorage.getItem('xAuthToken'),
+        'Content-type': 'application/json'
+
+      });
+    }
+    else{
+      headers = new HttpHeaders({
+        'Content-type': 'application/json'
+      });
+    }
+    return this.http.get(this.url+"user/getCurrentUser",{ headers: headers});
+
+  }
+  public updateUserInfo(userInfo){
+    
+    let headers;
+    if (localStorage.getItem('xAuthToken')&&localStorage.getItem('auth')) {
+      headers = new HttpHeaders({
+        'Authorization': localStorage.getItem('auth'),
+        'x-auth-token': localStorage.getItem('xAuthToken'),
+        'Content-type': 'application/json'
+
+      });
+    }
+    else{
+      headers = new HttpHeaders({
+        'Content-type': 'application/json'
+      });
+    }
+
+    return this.http.post(this.url+"user/updateUserInfo",userInfo,{ headers: headers, responseType: 'text'});
 
   }
 

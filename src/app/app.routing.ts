@@ -4,6 +4,7 @@ import { AddBookComponent } from './components/add-book/add-book.component';
 import { BookListComponent } from './components/book-list/book-list.component';
 import { HomeComponent } from './components/home/home.component';
 import { MyAccountComponent } from './components/my-account/my-account.component';
+import { MyProfileComponent } from './components/my-profile/my-profile.component';
 
 
 
@@ -34,6 +35,10 @@ export const routes :Routes =[
   {
     path: 'myaccount',
     component:MyAccountComponent,
+  },
+  {
+    path: 'myprofile',
+    component:MyProfileComponent,
   }
 ];
 

@@ -5,7 +5,7 @@ import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 
 import { AppComponent } from './app.component';
-import { MatButtonModule, MatToolbarModule, MatGridListModule, MatInputModule, MatSelectModule, MatSlideToggleModule, MatFormField, MatFormFieldModule, MatTabsModule } from '../../node_modules/@angular/material';
+import { MatButtonModule, MatToolbarModule, MatGridListModule, MatInputModule, MatSelectModule, MatSlideToggleModule, MatFormField, MatFormFieldModule, MatTabsModule, MatProgressSpinnerModule } from '../../node_modules/@angular/material';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { LoginComponent } from './components/login/login.component';
 import { LoginService } from './service/login.service';
@@ -26,6 +26,8 @@ import { HomeComponent } from './components/home/home.component';
 import { MyAccountComponent } from './components/my-account/my-account.component';
 import { LoginClientService } from './service/login-client.service';
 import { UserService } from './service/user.service';
+import { MyProfileComponent } from './components/my-profile/my-profile.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -41,7 +43,8 @@ import { UserService } from './service/user.service';
     DeleteAllComponent,
     NavbarUserComponent,
     HomeComponent,
-    MyAccountComponent
+    MyAccountComponent,
+    MyProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -54,11 +57,13 @@ import { UserService } from './service/user.service';
     MatInputModule,
     MatSelectModule,
     MatTabsModule,
+    MatProgressSpinnerModule,
     MatSlideToggleModule,
     RouterModule,
     RouterModule.forRoot(routes),
     MatGridListModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   
   ],
   providers: [LoginService,AddBookService,UploadImageService,LoginClientService,UserService],

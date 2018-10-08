@@ -26,20 +26,20 @@
 
                   <div *ngIf="loginError">
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                      Login Error !
+                      utilisateur ou mot de passe incorrect  !
                       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
                   </div>
-                  <form>
+                  <form (submit)="onLogin()">
                     <div class="form-group">
                       <label for="staticUsername" class="col-form-label">Username</label>
-                      <input type="text" class="form-control" placeholder="Entrer votre identifiant : " [(ngModel)]="this.credential.username">
+                      <input type="text" class="form-control" placeholder="Entrer votre identifiant : " [(ngModel)]="this.credential.username" name="username">
                     </div>
                     <div class="form-group">
                       <label for="inputPassword" class="col-form-label">Password</label>
-                      <input type="password" class="form-control" placeholder="Password" [(ngModel)]="this.credential.password">
+                      <input type="password" class="form-control" placeholder="Password" [(ngModel)]="this.credential.password" name="password">
                     </div>
                     <button type="submit" class="btn btn-primary"> <i class="fas fa-sign-in-alt"></i> Login</button>
                   </form>
@@ -56,16 +56,16 @@
                       </button>
                     </div>
                   </div>
-                  <form>
+                  <form (submit)="onNewAccount()">
                     <div class="form-group">
                       <label for="staticUsername" class="col-form-label">Username: <span class="text-danger" *ngIf="this.usernameExists">utilisateur
                           éxiste deja !</span></label>
-                      <input type="text" class="form-control" placeholder="Entrer votre identifiant : " [(ngModel)]="username">
+                      <input type="text" class="form-control" placeholder="Entrer votre identifiant : " [(ngModel)]="this.username" name="identifiant">
                     </div>
                     <div class="form-group">
-                      <label for="inputPassword" class="col-form-label">Email : <span class="text-danger" *ngIf="this.usernameExists">email
+                      <label for="inputPassword" class="col-form-label">Email : <span class="text-danger" *ngIf="this.emailExists">email
                           éxiste deja !</span></label>
-                      <input type="email" class="form-control" placeholder="Password" [(ngModel)]="email">
+                      <input type="email" class="form-control" placeholder="Votre email" [(ngModel)]="this.email" name="email" >
                     </div>
                     <button type="submit" class="btn btn-primary"> <i class="fas fa-plus-square"></i> Créer un nouveau
                       compte </button>
@@ -90,10 +90,10 @@
                       </button>
                     </div>
                   </div>
-                  <form>
+                  <form (submit)="onForgetPassword()">
                     <div class="form-group">
                       <label for="staticUsername" class="col-form-label">Votre Email : </label>
-                      <input type="email" class="form-control" placeholder="Entrer votre Email : " [(ngModel)]="recoverEmail">
+                      <input type="email" class="form-control" placeholder="Entrer votre Email : " [(ngModel)]="recoverEmail" name="emailRecover">
                     </div>
 
                     <button type="submit" class="btn btn-primary"> <i class="fas fa-search"></i>Rechercher</button>

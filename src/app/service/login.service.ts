@@ -17,6 +17,8 @@ export class LoginService {
       'Authorization': basicHeader
     });
 
+    localStorage.setItem("auth",basicHeader);
+
     return this.http.get(url, { headers: headers });
 
   }
@@ -26,9 +28,9 @@ export class LoginService {
     console.log("check 1 : " + localStorage.getItem('xAuthToken'));
     let headers;
 
-    if(localStorage.getItem('xAuthToken')){
+    if(localStorage.getItem('xAuthToken')&&localStorage.getItem('auth')){
      headers = new HttpHeaders({
-      'Authorization': 'Basic ajpq',
+      'Authorization': localStorage.getItem('auth'),
       'x-auth-token': localStorage.getItem('xAuthToken')
       
     });
@@ -44,7 +46,7 @@ export class LoginService {
 logout() {
   let url = "http://localhost:8080/user/logout";
   let headers = new HttpHeaders({
-    'Authorization': 'Basic ajpq',
+    'Authorization': localStorage.getItem('auth'),
     'x-auth-token': localStorage.getItem('xAuthToken')
   });
 

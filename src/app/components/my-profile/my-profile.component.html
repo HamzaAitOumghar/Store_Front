@@ -1,0 +1,121 @@
+<div class="container">
+  <div class="row" style="background-image: url('../../../assets/images/library-1147815_1280.jpg');height: 250px;">
+    <div class="col-md-8 my-auto">
+      <h3 class="display-4"><span class="badge badge-primary border border-warning rounded"><i class="fas fa-address-card"></i>
+          Mon Profile</span></h3>
+    </div>
+    <div class="col-md-4 my-auto">
+      <img src="../../../assets/images/logo.png" class="img-fluid rounded border border-warning" style="z-index: 1;">
+    </div>
+
+  </div>
+
+  <hr style="width: 85%;height: 6px;background-color: #333;z-index: -1;">
+
+  <div *ngIf="!dataFetched" class="my-2">
+    <div class="row">
+      <div class="col-md-2 offset-md-5">
+        <mat-spinner></mat-spinner>
+      </div>
+
+    </div>
+  </div>
+  <div class="row  my-2">
+    <div class="col-md-2"></div>
+    <div class="col-md-10" *ngIf="dataFetched">
+      <div class="card">
+        <div class="card-body" style="background-color: #ededed">
+          <mat-tab-group [selectedIndex]="selectedProfileTab">
+            <mat-tab label="Edit">
+              <div *ngIf="errorMessage" class="mt-1">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  {{this.mesgError}}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              </div>
+              <div *ngIf="updateSuccess" class="mt-2">
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                  votre information ont mis a jour !
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              </div>
+              <form *ngIf="form" [formGroup]="form" class="px-3">
+                <div class="form-row">
+                  <div class="col-md-6">
+                    <label for="staticUsername" class="col-form-label">Nom : </label>
+                    <input type="text" class="form-control" placeholder="Entrer votre identifiant : " formControlName="firstName"
+                      name="firstname">
+
+                  </div>
+                  <div class="col-md-6">
+                    <label for="inputPassword" class="col-form-label">Prénom : </label>
+                    <input type="lastName" class="form-control" placeholder="Password" formControlName="lastName" name="text">
+
+                  </div>
+
+                </div>
+                <div class="form-group">
+                  <label for="staticUsername" class="col-form-label">Identifiant<span class="text-danger" *ngIf="usernameExiste">Utilisateur
+                      deja existe ! </span></label>
+                  <input type="text" class="form-control" placeholder="Entrer votre identifiant : " formControlName="username"
+                    name="username">
+                </div>
+                <div class="form-group">
+                  <label for="inputPassword" class="col-form-label">Mot de passe actuel</label>
+                  <input type="password" class="form-control" placeholder="Password" formControlName="password" name="password">
+                  <mat-error *ngIf="this.form.get('password').hasError('required')">
+                    ce champ est obligatoire
+                  </mat-error>
+                </div>
+                <div class="form-group">
+                  <label for="staticUsername" class="col-form-label">Email</label>
+                  <input type="email" class="form-control" placeholder="Entrer votre identifiant : " formControlName="email"
+                    name="email">
+                  <mat-error *ngIf="this.form.get('email').hasError('required')">
+                    ce champ est obligatoire
+                  </mat-error>
+
+                </div>
+
+                <div class="form-group">
+                  <label for="inputPassword" class="col-form-label">Nouveau mot de passe </label>
+                  <input type="newPassword" class="form-control" placeholder="Password" formControlName="newPassword"
+                    name="password" [(ngModel)]="this.newPassword" >
+                    <mat-error *ngIf="this.form.get('newPassword').hasError('required')">
+                      ce champ est obligatoire
+                    </mat-error>
+                </div>
+                <div class="form-group">
+                  <label for="inputPassword" class="col-form-label">Confirmer le Mot de passe </label>
+                  <input type="confirmNewPassword" class="form-control" placeholder="Password" formControlName="confirmPassword"
+                    name="confirmPassword" />
+                   <div class="row ml-1">
+                    <mat-error *ngIf="this.form.get('confirmPassword').hasError('required')">
+                      ce champ est obligatoire
+                    </mat-error>
+                   </div> 
+                   <div class="row ml-1">
+                    <mat-error *ngIf="this.form.hasError('notSame')">
+                      mot de pass saisi ne sont pas identiques ! ! 
+                    </mat-error>
+                   </div>
+                    
+                </div>
+
+                <button type="submit" [disabled]="!form.valid" class="btn btn-primary mx-auto" (click)="onUpdateUserInfo()"> <i class="fas fa-user-edit"></i>
+                  Modifier</button>
+              </form>
+            </mat-tab>
+            <mat-tab label="Tab 2">Content 2</mat-tab>
+          </mat-tab-group>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
