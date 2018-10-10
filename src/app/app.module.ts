@@ -28,6 +28,7 @@ import { LoginClientService } from './service/login-client.service';
 import { UserService } from './service/user.service';
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PayementService } from './service/payement.service';
 
 
 @NgModule({
@@ -66,7 +67,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule
   
   ],
-  providers: [LoginService,AddBookService,UploadImageService,LoginClientService,UserService],
+  providers: [LoginService,AddBookService,UploadImageService,LoginClientService,UserService,PayementService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

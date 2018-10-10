@@ -4,6 +4,9 @@ import { UserService } from '../../service/user.service';
 import { LoginService } from '../../service/login.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
+import { UserPayment } from '../../entities/user-payment';
+import { UserBilling } from '../../entities/user-billing';
+import { PayementService } from '../../service/payement.service';
 
 @Component({
     selector: 'app-my-profile',
@@ -41,15 +44,28 @@ export class MyProfileComponent implements OnInit {
 
     errorMessage: boolean = false;
 
-    constructor(private userService: UserService, private loginService: LoginService, private router: Router) {
+
+    userPayment:UserPayment;
+    userBilling:UserBilling;
+    userPaymentList:UserPayment[]=[];
+
+    selectedProfileTab:number=0;
+    selectedBillingTab:number=0;
+    defaultPaymentSet:boolean;
+    defaultUserPaymentId:number;
+
+
+
+    constructor(private userService: UserService, private loginService: LoginService,private paymentService:PayementService, private router: Router) {
 
     }
 
+    selectedBillingChange(val:number){
+        this.selectedBillingTab=val;
+
+    }
 
     onUpdateUserInfo() {
-      
-
-
         this.userService.updateUserInfo(this.form.value).subscribe(
 
             (resp) => {
@@ -59,6 +75,7 @@ export class MyProfileComponent implements OnInit {
                 localStorage.setItem("auth", auth);
                 this.updateSuccess = true;
                 this.errorMessage = false;
+                console.log(localStorage.getItem('xAuthToken'));
 
             },
             (err) => {
@@ -89,7 +106,7 @@ export class MyProfileComponent implements OnInit {
                 this.form = new FormGroup({
                     id: new FormControl(this.user.id),
                     email: new FormControl(this.user.email, Validators.required),
-                    username: new FormControl(this.user.username, Validators.required),
+                    username: new FormControl({value:this.user.username,disabled:true}, Validators.required),
                     firstName: new FormControl(this.user.firstName),
                     password: new FormControl('', Validators.required),
                     lastName: new FormControl(this.user.lastName),
@@ -117,13 +134,73 @@ export class MyProfileComponent implements OnInit {
         this.loginService.checkSession().subscribe(
             (resp) => {
                 this.loggedIn = true;
+                this.getCurrentUser();
             },
             (err) => {
                 this.loggedIn = false;
                 this.router.navigate(['/myaccount'])
             }
         );
-        this.getCurrentUser();
+
+            this.userBilling.userBillingState="";
+            this.userPayment.type="";
+            this.userPayment.expiryMonth="";
+            this.userPayment.expiryYear="";
+            this.userPayment.userBilling=this.userBilling;
+            
+            this.defaultPaymentSet=false;
+
     }
+
+    onNewPayment(){
+        this.paymentService.newPayement(this.userPayment).subscribe(
+
+            (resp)=>{
+                this.getCurrentUser();
+                this.selectedBillingTab=0;
+            },
+            (err)=>{
+                    console.log(err);
+                    
+            }
+
+        );
+    }
+
+    onUpdatePayment(payment : UserPayment){
+            this.userPayment=payment;
+            this.userBilling=payment.userBilling;
+            this.selectedBillingTab=1;
+    }
+    onRemovePayment(id:number){
+        this.paymentService.removePayement(id).subscribe(
+            (resp)=>{
+                this.getCurrentUser();
+            },
+            (err)=>{
+                    console.log(err);
+                    
+            }
+
+        );
+    }
+    setDefaultPayement(id:number){
+        this.defaultPaymentSet=false;
+
+        this.paymentService.setDefaultPayement(id).subscribe(
+            (resp)=>{
+                this.defaultPaymentSet=true;
+                this.getCurrentUser();
+            },
+            (err)=>{
+                    console.log(err);
+                    
+            }
+
+        );
+
+    }
+
+
 
 }

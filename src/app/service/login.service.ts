@@ -17,7 +17,7 @@ export class LoginService {
       'Authorization': basicHeader
     });
 
-    localStorage.setItem("auth",basicHeader);
+    localStorage.setItem("auth", basicHeader);
 
     return this.http.get(url, { headers: headers });
 
@@ -28,31 +28,32 @@ export class LoginService {
     console.log("check 1 : " + localStorage.getItem('xAuthToken'));
     let headers;
 
-    if(localStorage.getItem('xAuthToken')&&localStorage.getItem('auth')){
-     headers = new HttpHeaders({
+    if (localStorage.getItem('xAuthToken') && localStorage.getItem('auth')) {
+      headers = new HttpHeaders({
+        'Authorization': localStorage.getItem('auth'),
+        'x-auth-token': localStorage.getItem('xAuthToken')
+
+      });
+      return this.http.get(url, { headers: headers, responseType: 'text' });
+    } else {
+      return this.http.get(url, { responseType: 'text' });
+
+    }
+
+
+  }
+
+  logout() {
+    let url = "http://localhost:8080/user/logout";
+    console.log(localStorage.getItem('xAuthToken'));
+    let headers = new HttpHeaders({
       'Authorization': localStorage.getItem('auth'),
       'x-auth-token': localStorage.getItem('xAuthToken')
-      
     });
-    return this.http.get(url, { headers: headers, responseType: 'text' });
-  }else{
-    return this.http.get(url, { responseType: 'text' });
+
+    return this.http.post(url, {}, { headers: headers, responseType: 'text' });
 
   }
-
-   
-  }
-
-logout() {
-  let url = "http://localhost:8080/user/logout";
-  let headers = new HttpHeaders({
-    'Authorization': localStorage.getItem('auth'),
-    'x-auth-token': localStorage.getItem('xAuthToken')
-  });
-
-  return this.http.post(url, {}, { headers: headers, responseType: 'text' });
-
-}
 
 
 }

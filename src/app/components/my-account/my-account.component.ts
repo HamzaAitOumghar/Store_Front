@@ -41,7 +41,7 @@ export class MyAccountComponent implements OnInit {
         this.loggedIn = true;
       },
       (err) => {
-        this.loggedIn
+        this.loggedIn=false;
       }
     );
   }
