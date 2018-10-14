@@ -113,28 +113,301 @@
             </mat-tab>
             <mat-tab label="Paiement">
               <br>
-              <div *ngIf="!defaultPaymentSet" class="alert alert-success">Le Paiment par defaut est bien selectionné</div>
+              <div *ngIf="defaultPaymentSet" class="alert alert-success">Le Paiment par defaut est bien selectionné</div>
 
               <mat-tab-group (selectedIndexChange)="selectedBillingChange($event)" [selectedIndex]="selectedBillingTab">
                 <mat-tab label="Cartes de crédit">
-                  <form (ngSubmit)="setDefaultPayement()">
-                    <table class="table">
-                        <thead>
-                          
-                          <td>Par Defaut</td>
-                          <td>Carte de Crédit</td>
-                          <td>Operation</td>
+                  <form (ngSubmit)="setDefaultPayement(defaultUserPaymentId)" class="px-2 mt-2">
+                    <table class="table table-bordered text-center table-sm">
+                      <thead class="table-active">
 
-                        </thead>
-                        <tbody *ngFor="let userPay of userPaymentList">
-                            <td><input type="radio" name="defaultUserPaymentId" [(ngModel)]="defaultUserPaymentId"  ><span>Par défaut</span></td>
-                        </tbody>
+                        <td>Par Defaut</td>
+                        <td>Carte de Crédit</td>
+                        <td>Operation</td>
+
+                      </thead>
+                      <tbody *ngFor="let userPay of userPaymentList">
+                        <td>
+                          <div class="custom-control custom-radio">
+                            <input type="radio" name="defautPaymentRadio" id="{{userPay.id}}" class="custom-control-input"
+                              [(ngModel)]="defaultUserPaymentId" [value]="userPay.id">
+                            <label class="custom-control-label" for="{{userPay.id}}"> Par Défault </label>
+                          </div>
+                          <!-- <input type="radio" name="defaultUserPaymentId" id="customRadio1"
+                              [(ngModel)]="defaultUserPaymentId" [checked]="userPay.defaultPayment"> <span>Par defaut</span> -->
+
+                        </td>
+                        <td>{{userPay.cardName}}</td>
+                        <td>
+                          <a (click)="onUpdatePayment(userPay)" class="btn btn-default"><i class="fas fa-sync-alt"></i>
+                          </a>
+                          <a (click)="onRemovePayment(userPay.id)" class="btn btn-default"><i class="fas fa-trash-alt"></i>
+                          </a>
+
+                        </td>
+
+                      </tbody>
                     </table>
+                    <button class="btn btn-primary" type="submit"><i class="fas fa-save"></i> Enregistrer</button>
                   </form>
 
                 </mat-tab>
-                <mat-tab label="Second"> Content 2 </mat-tab>
-                <mat-tab label="Third"> Content 3 </mat-tab>
+                <mat-tab label="(Ajouter/Modifier) Carte de crédit">
+
+                  <form (submit)="onNewPayment()" method="POST" class="mx-2 mt-2">
+
+                    <div class="alert alert-success" *ngIf="updateUserPayementInfo">
+                      l'information sont mise a jour
+                    </div>
+                    <input hidden="hidden" name="id" [(ngModel)]="userPayment.id">
+                    <div class="form-group">
+                      <label for="staticUsername" class="col-form-label">Nom du Carte de credit </label>
+                      <input type="text" class="form-control" name="cardName" placeholder="Nom du carte" [(ngModel)]="userPayment.cardName">
+                    </div>
+                    <hr />
+                    <!-- adresse de facturation -->
+
+
+                    <div class="form-group">
+                      <label for="staticUsername" class="col-form-label">*Destinataire </label>
+                      <input type="text" class="form-control" name="userBillingName" placeholder="Nom du Destinataire"
+                        [(ngModel)]="userBilling.userBillingName">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="staticUsername" class="col-form-label">*Adress </label>
+                      <input type="text" class="form-control" name="userBillingStreet " placeholder="Entrer votre adress 1 "
+                        [(ngModel)]="userBilling.userBillingStreet1">
+                    </div>
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="userBillingStreet2" placeholder="Entrer votre adress 2 "
+                        [(ngModel)]="userBilling.userBillingStreet2">
+                    </div>
+                    <div class="form-row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="staticUsername" class="col-form-label">*Ville </label>
+                          <input type="text" class="form-control" name="city" placeholder="Entrer votre ville "
+                            [(ngModel)]="userBilling.userBillingCity">
+                        </div>
+
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="staticUsername" class="col-form-label">*Region </label>
+                          <select type="text" class="form-control" name="region" placeholder="Entrer votre region "
+                            [(ngModel)]="userBilling.userBillingState">
+                            <option value="" disabled>--Région--</option>
+                            <option value="{{reg}}" *ngFor="let reg of stateList">{{reg}}</option>
+
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="staticUsername" class="col-form-label">*Code postale </label>
+                          <input type="text" class="form-control" name="codePostal" placeholder="Entrer votre ville "
+                            [(ngModel)]="userBilling.userBillingZipcode">
+                        </div>
+                      </div>
+                    </div>
+
+                    <!--Paiement-->
+
+                    <hr />
+                    <div class="form-group">
+                      <h4>Information du carte du credit</h4>
+                    </div>
+                    <img src="../../../assets/images/creditcard.png" class="img-fluid" alt="">
+                    <div class="form-row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="cardType" class="col-form-label">*Type du Carte : </label>
+                          <select id="billingState" class="form-control" name="cardType" [(ngModel)]="userPayment.type">
+                            <option value="">--Type--</option>
+                            <option value="visa">Visa</option>
+                            <option value="master-card">Master Card</option>
+                            <option value="discover">Discover</option>
+                            <option value="express">American Express</option>
+
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="cardHolder" class="col-form-label">*Détenteur du carte </label>
+                          <input type="text" class="form-control" name="codeHolder" placeholder="Entrer le Détenteur du carte  "
+                            [(ngModel)]="userPayment.holderName">
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="cardHolder" class="col-form-label">*Numero du carte </label>
+                          <div class="input-group">
+                            <input type="number" class="form-control" name="codeNumber" placeholder="Entrer le numero du carte  "
+                              [(ngModel)]="userPayment.cardNumber">
+                            <div class="input-group-append">
+                              <span class="input-group-text"><i class="fas fa-credit-card"></i></span>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                    <hr />
+
+                    <div class="form-row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="cardHolder" class="col-form-label">*Date d'expiration : </label>
+                          <select name="mounthCard" class="form-control" [(ngModel)]="userPayment.expiryMonth">
+                            <option value="" disabled>--Mois--</option>
+                            <option value="01">janvier</option>
+                            <option value="02">février</option>
+                            <option value="03">mars</option>
+                            <option value="04">avril</option>
+                            <option value="05">mai</option>
+                            <option value="06">juin</option>
+                            <option value="07">juillet </option>
+                            <option value="08">août </option>
+                            <option value="09">septembre</option>
+                            <option value="10">octobre</option>
+                            <option value="11">novembre</option>
+                            <option value="12">décembre</option>
+
+                          </select>
+
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="cardHolder" class="col-form-label">&nbsp;</label>
+                          <select name="mounthCard" class="form-control" [(ngModel)]="userPayment.expiryYear">
+                            <option value="" disabled>--Année--</option>
+                            <option value="18">2018</option>
+                            <option value="19">2019</option>
+                            <option value="20">2020</option>
+                            <option value="21">2021</option>
+                            <option value="22">2022</option>
+                            <option value="23">2023</option>
+
+
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="cardHolder" class="col-form-label">* CODE CVC du carte </label>
+                          <input type="text" class="form-control" name="codeCVS" placeholder="Entrer le code cv"
+                            [(ngModel)]="userPayment.cvc">
+                        </div>
+                      </div>
+
+                    </div>
+                    <button class="btn btn-primary"><i class="fas fa-save"></i> Enregister tous</button>
+                  </form>
+
+                </mat-tab>
+              </mat-tab-group>
+
+            </mat-tab>
+            <mat-tab label="Livraison">
+              <br>
+              <div *ngIf="defaultShippingSet" class="alert alert-success">livraison par defaut est selectionné</div>
+              <mat-tab-group (selectedIndexChange)="selectedShippingChange($event)" [selectedIndex]="selectedShippingTab">
+
+                <mat-tab label="Adresses de livraison :">
+                  <div class="alert alert-success mt-2" *ngIf="updateUserShippingInfo">
+                    l'information sont mise a jour
+                  </div>
+                  <form (ngSubmit)="setDefaultShipping(defaultUserShippingId)" class="px-2 mt-2">
+                    <table class="table table-bordered text-center table-sm">
+                      <thead class="table-active">
+
+                        <td> Par défaut ?</td>
+                        <td>Adress de livraison</td>
+                        <td>Operation</td>
+
+                      </thead>
+                      <tbody *ngFor="let userPay of userShippingList">
+                        <td>
+                          <div class="custom-control custom-radio">
+                            <input type="radio" name="defautPaymentRadio" id="{{userPay.id}}" class="custom-control-input"
+                              [(ngModel)]="defaultUserShippingId" [value]="userPay.id">
+                            <label class="custom-control-label" for="{{userPay.id}}"> Par Défault </label>
+                          </div>
+
+                        </td>
+                        <td>{{userPay.userShippingName}}</td>
+                        <td>
+                          <a (click)="onUpdateShipping(userPay)" class="btn btn-default"><i class="fas fa-sync-alt"></i>
+                          </a>
+                          <a (click)="onRemoveShipping(userPay.id)" class="btn btn-default"><i class="fas fa-trash-alt"></i>
+                          </a>
+
+                        </td>
+
+                      </tbody>
+                    </table>
+                    <button class="btn btn-primary" type="submit"><i class="fas fa-save"></i> Enregistrer</button>
+                  </form>
+                </mat-tab>
+                <mat-tab label="(Ajouter/Modifier) une adresse">
+
+
+                  <form (submit)="onNewShipping()" method="POST" class="mx-2 mt-2">
+
+                    <div class="form-group">
+                      <label for="nameShipping" class="col-form-label">Nom : </label>
+                      <input type="text" class="form-control" placeholder="nom du livraison" name="nom" [(ngModel)]="userShipping.userShippingName">
+                    </div>
+                    <div class="form-group">
+                      <label for="nameShipping" class="col-form-label">Rue : </label>
+                      <input type="text" class="form-control" name="rue1" placeholder="entrer le rue 1 : " [(ngModel)]="userShipping.userShippingStreet1">
+                    </div>
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="rue2" placeholder="entrer le rue 2 : " [(ngModel)]="userShipping.userShippingStreet2">
+                    </div>
+
+                    <div class="form-row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="nameShipping" class="col-form-label">Ville : </label>
+                          <input type="text" class="form-control" placeholder="enter la ville : " name="ville"
+                            [(ngModel)]="userShipping.userShippingCity">
+                        </div>
+
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="regionShipping" class="col-form-label">Région : </label>
+                          <select id="regionShipping" class="form-control" name="region" [(ngModel)]="userShipping.userShippingState">
+                            <option value=" " disabled selected>--Région--</option>
+                            <option value="{{reg}}" *ngFor="let reg of stateList">{{reg}}</option>
+                          </select>
+                        </div>
+
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="nameShipping" class="col-form-label">Code Postale : </label>
+                          <input type="number" placeholder="entrer le code postale" class="form-control" name="ville"
+                            [(ngModel)]="userShipping.userShippingZipcode">
+
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="form-group mt-3">
+                      <button class="btn btn-primary " type="submit"><i class="fas fa-save"></i> Enregister </button>
+                    </div>
+
+                  </form>
+
+
+
+                </mat-tab>
+
               </mat-tab-group>
 
             </mat-tab>

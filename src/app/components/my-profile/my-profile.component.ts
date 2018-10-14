@@ -7,6 +7,8 @@ import { FormGroup, FormControl, Validators, AbstractControl, ValidatorFn } from
 import { UserPayment } from '../../entities/user-payment';
 import { UserBilling } from '../../entities/user-billing';
 import { PayementService } from '../../service/payement.service';
+import { UserShipping } from '../../entities/user-shipping';
+import { ShippingService } from '../../service/shipping.service';
 
 @Component({
     selector: 'app-my-profile',
@@ -45,18 +47,41 @@ export class MyProfileComponent implements OnInit {
     errorMessage: boolean = false;
 
 
-    userPayment:UserPayment;
-    userBilling:UserBilling;
+    userPayment:UserPayment=new UserPayment();
+    userBilling:UserBilling=new UserBilling();
+    userShipping:UserShipping=new UserShipping();
+
     userPaymentList:UserPayment[]=[];
+    userShippingList:UserShipping[]=[];
 
     selectedProfileTab:number=0;
     selectedBillingTab:number=0;
+    selectedShippingTab:number=0;
+
     defaultPaymentSet:boolean;
     defaultUserPaymentId:number;
+    defaultShippingSet:boolean;
+    defaultUserShippingId:number;
+    
+    updateUserPayementInfo:boolean;
+    updateUserShippingInfo:boolean;
 
 
 
-    constructor(private userService: UserService, private loginService: LoginService,private paymentService:PayementService, private router: Router) {
+    stateList=[
+        "Région de Tanger-Tétouan-Al Hoceïma. Préfecture de Tanger-Assilah",
+        "Région de l'Oriental. Préfecture d'Oujda-Angad ",
+        "Région de Fès-Meknès",
+        "Région de Rabat-Salé-Kénitra",
+        "Région de Béni Mellal-Khénifra",
+        "Région de Casablanca-Settat",
+        "Région de Marrakech-Safi",
+        "Région de Drâa-Tafilalet"
+    ];
+
+
+
+    constructor(private userService: UserService, private loginService: LoginService,private paymentService:PayementService,private shippingService:ShippingService, private router: Router) {
 
     }
 
@@ -64,6 +89,12 @@ export class MyProfileComponent implements OnInit {
         this.selectedBillingTab=val;
 
     }
+
+    selectedShippingChange(val:number){
+        this.selectedShippingTab=val;
+
+    }
+    
 
     onUpdateUserInfo() {
         this.userService.updateUserInfo(this.form.value).subscribe(
@@ -100,6 +131,28 @@ export class MyProfileComponent implements OnInit {
                 console.log(resp);
 
                 this.user = resp;
+                this.userPaymentList=this.user.userPayments;
+                this.userShippingList=this.user.userShippings;
+
+
+
+                for (let index in this.userPaymentList) {
+                    if(this.userPaymentList[index].defaultPayment){
+                        this.defaultUserPaymentId=this.userPaymentList[index].id;
+                        break;
+                    }
+                    
+                }
+
+                for (let index in this.userShippingList) {
+                    if(this.userShippingList[index].userShippingDefault){
+                        this.defaultUserShippingId=this.userShippingList[index].id;
+                        break;
+                    }
+                    
+                }
+
+
 
                 this.dataFetched = true;
 
@@ -149,6 +202,8 @@ export class MyProfileComponent implements OnInit {
             this.userPayment.userBilling=this.userBilling;
             
             this.defaultPaymentSet=false;
+            this.defaultShippingSet=false;
+
 
     }
 
@@ -176,6 +231,7 @@ export class MyProfileComponent implements OnInit {
         this.paymentService.removePayement(id).subscribe(
             (resp)=>{
                 this.getCurrentUser();
+
             },
             (err)=>{
                     console.log(err);
@@ -186,11 +242,11 @@ export class MyProfileComponent implements OnInit {
     }
     setDefaultPayement(id:number){
         this.defaultPaymentSet=false;
-
+     
         this.paymentService.setDefaultPayement(id).subscribe(
             (resp)=>{
-                this.defaultPaymentSet=true;
                 this.getCurrentUser();
+                this.defaultPaymentSet=true;
             },
             (err)=>{
                     console.log(err);
@@ -201,6 +257,57 @@ export class MyProfileComponent implements OnInit {
 
     }
 
+    onNewShipping(){
+        this.defaultShippingSet=false;
+        this.updateUserShippingInfo=false;
+        
 
+        this.shippingService.newShipping(this.userShipping).subscribe(
+            (resp)=>{
+                    this.selectedShippingTab=0;
+                    this.getCurrentUser();
+                    this.updateUserShippingInfo=true;
+            },
+            (err)=>{
+                console.log(err);
+                
+            }
+
+
+        );
+    }
+    onUpdateShipping(shipping:UserShipping){
+        this.userShipping=shipping;
+        this.selectedShippingTab=1;
+    }
+
+    onRemoveShipping(id:number){
+        this.shippingService.removeShipping(id).subscribe(
+            (resp)=>{
+                this.getCurrentUser();
+            },
+            (err)=>{
+                    console.log(err);
+                    
+            }
+        );           
+    }
+    setDefaultShipping(id:number){
+        this.defaultShippingSet=false;
+        this.updateUserShippingInfo=false;
+     
+        this.shippingService.setDefaultShipping(id).subscribe(
+            (resp)=>{
+                this.getCurrentUser();
+                this.defaultShippingSet=true;
+            },
+            (err)=>{
+                    console.log(err);
+                    
+            }
+
+        );
+
+    }
 
 }

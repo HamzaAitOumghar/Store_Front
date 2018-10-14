@@ -1,3 +1,6 @@
+import { UserPayment } from "./user-payment";
+import { UserShipping } from "./user-shipping";
+
 export class User {
     public id: number;
     public username: string;
@@ -7,6 +10,8 @@ export class User {
     public email: string;
     public phone: string;
     public enable: boolean;
+    public userPayments : UserPayment[];
+    public userShippings : UserShipping[];
 
 
 

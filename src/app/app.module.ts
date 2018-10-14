@@ -29,6 +29,7 @@ import { UserService } from './service/user.service';
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PayementService } from './service/payement.service';
+import { ShippingService } from './service/shipping.service';
 
 
 @NgModule({
@@ -67,7 +68,7 @@ import { PayementService } from './service/payement.service';
     ReactiveFormsModule
   
   ],
-  providers: [LoginService,AddBookService,UploadImageService,LoginClientService,UserService,PayementService],
+  providers: [LoginService,AddBookService,UploadImageService,LoginClientService,UserService,PayementService,ShippingService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
