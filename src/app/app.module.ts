@@ -30,6 +30,10 @@ import { MyProfileComponent } from './components/my-profile/my-profile.component
 import { ReactiveFormsModule } from '@angular/forms';
 import { PayementService } from './service/payement.service';
 import { ShippingService } from './service/shipping.service';
+import { BookListClientComponent } from './components/book-list-client/book-list-client.component';
+import {DataTableModule} from "angular2-datatable";
+import { DataFilterPipe } from './pipes/data-filter-pipe';
+
 
 
 @NgModule({
@@ -46,7 +50,9 @@ import { ShippingService } from './service/shipping.service';
     NavbarUserComponent,
     HomeComponent,
     MyAccountComponent,
-    MyProfileComponent
+    MyProfileComponent,
+    BookListClientComponent,
+    DataFilterPipe
   ],
   imports: [
     BrowserModule,
@@ -65,7 +71,8 @@ import { ShippingService } from './service/shipping.service';
     RouterModule.forRoot(routes),
     MatGridListModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DataTableModule
   
   ],
   providers: [LoginService,AddBookService,UploadImageService,LoginClientService,UserService,PayementService,ShippingService],

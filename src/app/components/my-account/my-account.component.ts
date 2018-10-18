@@ -25,10 +25,8 @@ export class MyAccountComponent implements OnInit {
   emailNotExists: boolean = false;
   forgetPasswordEmailSent: boolean;
   recoverEmail: string;
-  credential = {
-    username: "",
-    password: ""
-  }
+  credential = { 'username': '', 'password': '' };
+
 
 
   constructor(private loginService: LoginService, private userService: UserService, public router: Router) {
@@ -53,6 +51,8 @@ export class MyAccountComponent implements OnInit {
         this.loggedIn = true;
         location.reload();
         this.router.navigate(['/home']);
+        console.log(this.credential);
+        
       },
       (err) => {
         this.loginError = true;

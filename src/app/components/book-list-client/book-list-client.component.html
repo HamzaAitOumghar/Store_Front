@@ -1,0 +1,85 @@
+<div class="container">
+  <div class="row" style="background-image: url('../../../assets/images/library-1147815_1280.jpg');height: 250px;">
+    <div class="col-md-8 my-auto">
+      <h3 class="display-4"><span class="badge badge-primary border border-warning rounded"><i class="fas fa-address-card"></i>
+          Listes des livres : </span></h3>
+    </div>
+    <div class="col-md-4 my-auto">
+      <img src="../../../assets/images/logo.png" class="img-fluid rounded border border-warning" style="z-index: 1;">
+    </div>
+
+
+  </div>
+</div>
+<hr style="width: 85%;height: 6px;background-color: #333;z-index: -1;" class="my-2">
+<div class="container">
+    <div class="row" >
+        <div class="col-md-2"></div>
+        <div class="col-md-10" style="background-color: #ededed">
+    
+          <table class="table" [mfData]="bookList" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder" >
+            <thead>
+              <tr>  
+                <th colspan="5">
+                  <div class="row">
+                    <div class="col-md-9">
+                      <label class="col-form-label"> Filtrer par description : </label>
+                      <input class="form-control form-control-sm" [(ngModel)]="filtredQuery">
+                    </div>
+                    <div class="col-md-3">
+                      <label class="col-form-label"> Nbr des lignes : </label>
+                      <select class="custom-select custom-select-sm" [(ngModel)]="rowsOnPage">
+                        <option selected>Choisir un nombre : </option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                      </select>
+                    </div>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+    
+            <tbody>
+              <tr *ngFor="let b of mf.data">
+                <div class="row my-1 mx-1">
+                  <div class="col-md-3 border border-dark">
+                    <a (click)="onSelect(b)" style="cursor: pointer;">
+                        <img class="img-fluid" src="http://localhost:8080/image/book/{{b.id}}.png">
+                    </a>
+                    
+                  </div>
+                  <div class="col-md-9 border border-dark">
+                    <h4 (click)="onSelect(b)" class="mt-2" style="cursor: pointer;">
+                      {{b.title}}
+                    </h4>
+                    <span>{{b.publicationDate}}</span>
+                    <p>{{b.author}}</p>
+
+                    <a (click)="onSelect(b)" style="cursor: pointer;"><span>{{ b.format | uppercase}}</span></a>
+                    <span>{{b.numberOfPages}}</span><span> pages</span>
+                    <br />
+
+                    <a (click)="onSelect(b)"  style="cursor: pointer;">
+                      <span class="text-primary">$<span>{{b.ourPrice|number : '1.2-2'}}</span></span>
+                    </a>
+
+                    <span style="text-decoration: line-through; ">$<span>{{b.listPrice|number : '1.2-2'}}</span></span>
+
+                    <p>{{b.description | slice:0:500}}</p>
+
+                  </div>
+                </div>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                  <td colspan="5">
+                      <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                  </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+</div>

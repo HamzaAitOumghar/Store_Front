@@ -61,7 +61,7 @@ export class UploadImageService {
       }
 
       xhr.open("POST", url, true);
-      xhr.setRequestHeader("Authorization", "Basic ajpq");
+      xhr.setRequestHeader("Authorization", localStorage.getItem('auth'));
       xhr.setRequestHeader("x-auth-token", localStorage.getItem("xAuthToken"));
       xhr.send(formData);
 
