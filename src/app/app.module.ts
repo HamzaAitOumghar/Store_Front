@@ -33,6 +33,9 @@ import { ShippingService } from './service/shipping.service';
 import { BookListClientComponent } from './components/book-list-client/book-list-client.component';
 import {DataTableModule} from "angular2-datatable";
 import { DataFilterPipe } from './pipes/data-filter-pipe';
+import { BookDetailsComponent } from './components/book-details/book-details.component';
+import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
+import { CartService } from './service/cart.service';
 
 
 
@@ -52,7 +55,9 @@ import { DataFilterPipe } from './pipes/data-filter-pipe';
     MyAccountComponent,
     MyProfileComponent,
     BookListClientComponent,
-    DataFilterPipe
+    DataFilterPipe,
+    BookDetailsComponent,
+    ShoppingCartComponent
   ],
   imports: [
     BrowserModule,
@@ -75,7 +80,7 @@ import { DataFilterPipe } from './pipes/data-filter-pipe';
     DataTableModule
   
   ],
-  providers: [LoginService,AddBookService,UploadImageService,LoginClientService,UserService,PayementService,ShippingService],
+  providers: [LoginService,AddBookService,UploadImageService,LoginClientService,UserService,PayementService,ShippingService,CartService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

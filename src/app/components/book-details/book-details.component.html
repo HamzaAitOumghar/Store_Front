@@ -1,0 +1,109 @@
+<div class="container">
+  <div class="row" style="background-image: url('../../../assets/images/library-1147815_1280.jpg');height: 250px;">
+    <div class="col-md-8 my-auto">
+      <h3 class="display-4"><span class="badge badge-primary border border-warning rounded"><i class="fas fa-address-card"></i>
+          Détails du livre : </span></h3>
+    </div>
+    <div class="col-md-4 my-auto">
+      <img src="../../../assets/images/logo.png" class="img-fluid rounded border border-warning" style="z-index: 1;">
+    </div>
+
+
+  </div>
+</div>
+
+<hr style="width: 85%;height: 6px;background-color: #333;z-index: -1;" class="my-2">
+
+<div class="container mb-2">
+  <button type="button" class="btn btn-dark my-1" (click)="backToList()"> <i class="fas fa-arrow-left"></i> Retour</button>
+  <div class="row" style="background-color: #ededed">
+
+    <div class="col-md-3">
+      <img class="img-fluid" src="http://localhost:8080/image/book/{{book.id}}.png">
+    </div>
+    <div class="col-md-5">
+      <div class="table-responsive">
+        <table class="table table-sm table-bordered mt-2">
+
+          <tr>
+            <td colspan="2" class="text-primary text-center">{{this.book.title}}</td>
+          </tr>
+          <tr>
+            <td class="text-primary">Autheur : </td>
+            <td>{{this.book.author}}</td>
+          </tr>
+          <tr>
+            <td class="text-primary">Catégorie : </td>
+            <td>{{this.book.category}}</td>
+          </tr>
+          <tr>
+            <td class="text-primary">Langue : </td>
+            <td>{{this.book.language}}</td>
+          </tr>
+          <tr>
+            <td class="text-primary">Nombre de pages : </td>
+            <td>{{this.book.numberOfPages}}</td>
+          </tr>
+          <tr>
+            <td class="text-primary">Date de publication : </td>
+            <td>{{this.book.publisherDate}}</td>
+          </tr>
+          <tr>
+            <td class="text-primary">Éditeur : </td>
+            <td>{{this.book.publisher}}</td>
+          </tr>
+          <tr>
+            <td colspan="2" [innerHTML]="this.book.description">
+               
+            </td>
+          </tr>
+
+
+
+        </table>
+
+      </div>
+
+
+    </div>
+    <div class="col-md-4 my-auto border border-dark">
+
+      <div class="row">
+
+        <div class="col-md-6">
+          <div class="badge badge-pill badge-primary mt-1">En Stock : <span>{{book.inStockNumber}}</span></div>
+          <div class="row  mt-3">
+            <div class="col-md-7">
+              <label class="my-auto">Quantité : </label>
+            </div>
+            <div class="col-md-5">
+              <input class="form-control form-control-sm" type="number" [(ngModel)]="this.qty">
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="display-4" style="font-size: 25px"><span style="text-decoration:line-through;font-size: 15px "
+              class="badge badge-danger">{{book.listPrice}}$</span>
+            <span class="badge badge-success"> {{book.ourPrice}} $</span> </div>
+          <div class="row mt-2">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-warning" (click)="addOnCart()" [disabled]="book.inStockNumber==0 || this.qty>book.inStockNumber"> <i class="fas fa-shopping-cart"></i>
+                  Ajouter au panier </button>
+            </div>
+            
+            
+          </div>
+        </div>
+
+      </div>
+      <span *ngIf="book.inStockNumber==0" class="text-danger">le livre n'existe plus en stock !</span>
+            <span *ngIf="this.qty>book.inStockNumber" class="text-danger">vous ne pouver pas choisir cette quantité  !</span>
+
+
+    </div>
+
+
+  </div>
+
+</div>

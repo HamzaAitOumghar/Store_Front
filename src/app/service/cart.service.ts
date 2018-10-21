@@ -1,17 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { UserPayment } from '../entities/user-payment';
+import { Router } from '@angular/router';
 
 @Injectable()
-export class PayementService {
+export class CartService {
 
-  private url: string = "http://localhost:8080/";
+  private url: string = "http://localhost:8080/shoppingCart";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
+  addItem(id: number, qty: number) {
 
-  newPayement(payment: UserPayment) {
+    let cartItemInfo = {
+      "bookId": id,
+      "qty": qty
+    }
     let headers;
+
     if (localStorage.getItem('xAuthToken') && localStorage.getItem('auth')) {
       headers = new HttpHeaders({
         'Authorization': localStorage.getItem('auth'),
@@ -25,11 +30,14 @@ export class PayementService {
         'Content-type': 'application/json'
       });
     }
-    return this.http.post(this.url+"payment/add",payment,{headers, responseType: 'text'});
+    return this.http.post(this.url + "/add", cartItemInfo, { headers, responseType: 'text' });
 
   }
-  getPayementList() {
+
+
+  getCartItemList() {
     let headers;
+
     if (localStorage.getItem('xAuthToken') && localStorage.getItem('auth')) {
       headers = new HttpHeaders({
         'Authorization': localStorage.getItem('auth'),
@@ -43,11 +51,14 @@ export class PayementService {
         'Content-type': 'application/json'
       });
     }
-    return this.http.get(this.url+"payment/getUserPaymentList",{headers, responseType: 'text'});
+
+    return this.http.get(this.url + "/getCartList", { headers, responseType: 'text' });
+
   }
 
-  removePayement(id: number) {
+  getShoppingCart() {
     let headers;
+
     if (localStorage.getItem('xAuthToken') && localStorage.getItem('auth')) {
       headers = new HttpHeaders({
         'Authorization': localStorage.getItem('auth'),
@@ -61,12 +72,20 @@ export class PayementService {
         'Content-type': 'application/json'
       });
     }
-    return this.http.post(this.url+"payment/remove",id,{headers, responseType: 'text'});
+
+    return this.http.get(this.url + "/getCart", { headers, responseType: 'text' });
 
   }
 
-   setDefaultPayement(id: number) {
+
+  updateCartItem(id: number, qty: number) {
+
+    let cartItemInfo = {
+      "cartItemId": id,
+      "qty": qty
+    }
     let headers;
+
     if (localStorage.getItem('xAuthToken') && localStorage.getItem('auth')) {
       headers = new HttpHeaders({
         'Authorization': localStorage.getItem('auth'),
@@ -80,12 +99,30 @@ export class PayementService {
         'Content-type': 'application/json'
       });
     }
-    return this.http.post(this.url+"payment/setDefault",id,{headers, responseType: 'text'});
+    return this.http.post(this.url + "/update", cartItemInfo, { headers, responseType: 'text' });
 
   }
 
+  removeCartItem(id:number){
+    let headers;
+
+    if (localStorage.getItem('xAuthToken') && localStorage.getItem('auth')) {
+      headers = new HttpHeaders({
+        'Authorization': localStorage.getItem('auth'),
+        'x-auth-token': localStorage.getItem('xAuthToken'),
+        'Content-type': 'application/json'
+
+      });
+    }
+    else {
+      headers = new HttpHeaders({
+        'Content-type': 'application/json'
+      });
+    }
+    return this.http.post(this.url + "/remove", id, { headers, responseType: 'text' });
 
 
+  }
 
 
 }

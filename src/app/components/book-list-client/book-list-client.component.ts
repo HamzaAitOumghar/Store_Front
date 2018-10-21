@@ -30,16 +30,7 @@ export class BookListClientComponent implements OnInit {
 
   ngOnInit() {
 
-    this.bookService.getBookList().subscribe(
-      (resp:any)=>{
-        this.bookList=resp;
-        console.log(resp);
-      },
-      (err)=>{
-        console.log("Error in getting bookList");
-        
-      }
-    );
+   
 
     this.route.queryParams.subscribe(params=>{
         if(params['bookList']){
@@ -47,7 +38,16 @@ export class BookListClientComponent implements OnInit {
           this.bookList=params['bookList'];
         }
         else{
-          
+          this.bookService.getBookList().subscribe(
+            (resp:any)=>{
+              this.bookList=resp;
+              console.log(resp);
+            },
+            (err)=>{
+              console.log("Error in getting bookList");
+              
+            }
+          );
         }
 
       });

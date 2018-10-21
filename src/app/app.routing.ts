@@ -6,6 +6,8 @@ import { HomeComponent } from './components/home/home.component';
 import { MyAccountComponent } from './components/my-account/my-account.component';
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
 import { BookListClientComponent } from './components/book-list-client/book-list-client.component';
+import { BookDetailsComponent } from './components/book-details/book-details.component';
+import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 
 
 
@@ -44,7 +46,16 @@ export const routes :Routes =[
   {
     path: 'listlivre',
     component:BookListClientComponent
+  },
+  {
+    path: 'bookDetails/:id',
+    component:BookDetailsComponent
+  },
+  {
+    path: 'shoppingCart',
+    component:ShoppingCartComponent
   }
+
 ];
 
 

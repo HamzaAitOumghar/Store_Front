@@ -1,0 +1,90 @@
+<div class="container">
+  <div class="row" style="background-image: url('../../../assets/images/library-1147815_1280.jpg');height: 250px;">
+    <div class="col-md-8 my-auto">
+      <h3 class="display-4"><span class="badge badge-primary border border-warning rounded"><i class="fas fa-address-card"></i>
+          Panier : </span></h3>
+    </div>
+    <div class="col-md-4 my-auto">
+      <img src="../../../assets/images/logo.png" class="img-fluid rounded border border-warning" style="z-index: 1;">
+    </div>
+
+
+  </div>
+</div>
+<hr style="width: 85%;height: 6px;background-color: #333;z-index: -1;" class="my-2">
+
+
+<div class="container">
+  <div class="row">
+    <div class="mr-auto">
+      <button class="btn btn-dark">Passer La Commande</button>
+    </div>
+    <div class="ml-auto">
+      <button class="btn btn-dark">Checkout </button>
+    </div>
+
+
+  </div>
+  <div class="mt-1">
+    <div class="alert alert-success" *ngIf="cartItemUpdated">
+      <i class="fas fa-check-circle"></i> Panier a était mis a jour
+    </div>
+    <div class="alert alert-danger" *ngIf="emptyCart">
+      <i class="fas fa-exclamation-triangle"></i> Panier est vide
+    </div>
+  </div>
+
+  <div class="row mt-2">
+
+    <table class="table table-bordered">
+      <thead class="text-center text-danger">
+        <tr>
+          <td>Livres</td>
+          <td>Prix</td>
+          <td>Qty</td>
+        </tr>
+      </thead>
+      <tr *ngFor="let cartItem of cartItemList">
+        <td>
+          <div class="row">
+
+            <div class="col-md-2">
+              <a class="btn btn-defaut" (click)="onSelect(cartItem.book)">
+                <img class="img-fluid" src="http://localhost:8080/image/book/{{cartItem.book.id}}.png" style="width: 70px;">
+              </a>
+            </div>
+            <div class="col-md-6">
+              <a class="btn btn-defaut" (click)="onSelect(cartItem.book)">
+                {{cartItem.book.title}}
+              </a>
+
+              <a class="btn btn-danger" (click)="onRemoveCartItem(cartItem)" style="cursor: pointer;">
+                <i class="fas fa-ban"></i> Supprimer
+              </a>
+            </div>
+          </div>
+        </td>
+        <td>
+
+          <h5>$<span [ngClass]="{'text-strike':cartItem.book.inStockNumber==0}">{{cartItem.book.ourPrice}}</span></h5>
+        </td>
+        <td>
+          <input hidden="hidden" name="id" [(ngModel)]="cartItem.id">
+          <input type="number" name="qty" [disabled]="cartItem.book.inStockNumber==0" [(ngModel)]="cartItem.qty" class="form-control"
+            (ngModelChange)="cartItem.toUpdate=true">
+          <a class="btn btn-warning mt-1" *ngIf="cartItem.toUpdate" (click)="onUpdateCartItem(cartItem)">Modifier </a>
+
+        </td>
+      </tr>
+    </table>
+
+  </div>
+
+  <div class="row">
+
+    <div class="ml-auto">
+      <strong style="font-size: large"> Totale : </strong><span class="text-dark">{{cartItemNumber}}</span> Articles
+      <span class="text-primary"> $ {{shoppingCart.grandTotal}} </span>
+    </div>
+  </div>
+</div>
